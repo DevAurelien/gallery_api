@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import axios from "axios";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [images, setImages] = useState([]);
+
+  const chargerImage = () => {
+    axios.get(`https://picsum.photos/200/300`, {responseType:'blob'}).then((res) => {
+      const imageUrl = URL.createObjectURL(res.data);
+      setImages(imageUrl);
+    });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="flex bg-red-200 justify-center w-1/2">
+      <button onClick={chargerImage}>Charger image</button>
+      <img src={images} alt="imageRandom" />
+    </div>
+  );
 }
 
-export default App
+export default App;
